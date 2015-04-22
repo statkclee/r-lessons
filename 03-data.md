@@ -142,9 +142,107 @@ We apologize for any inconvenience.
  + Rule 9. Source code management, Git/GitHub, HG
  + Rule 10. Rscript or R CMD BATCH *.R should "always" work ! -> Reproducible Data Analysis and Research
 
-![this is the image's title](fig/example.svg "this is the image's alt text")
+![Hadley Wickham](fig/had.svg "Hadley Wickham 자료분석 체계")
 
-> ## Challenge Title {.challenge}
+### Hadley Wickham이 제시하는 자료분석 체계
+
+Hadley Wickham은 tidyr을 사용하여 자료 정제하고 자료변환을 위해서 dplyr을 사용하고 그래픽 문법(glammar of graphics)에 따라 ggvis로 시각화하고 R의 다양한 모형화를 이용한 자료분석 체계도를 제안한다. 
+
+#### dplyr
+
+[dplyr](http://cran.r-project.org/web/packages/dplyr/dplyr.pdf) 패키지는 데이터프레임(data.frame) 자료처리를 위한 차세대 plyr 패키지다. 다음 6가지 함수가 핵심 함수로 SQL 기본 기능과 유사성이 크다. 따라서, 기존 다양한 자료처리 방식을 직관적이며 빠르며 효율적인 dplyr 패키지 함수로 생산성을 높여본다.
+
+ - filter (관측점 필터링) : 특정 기준을 만족하는 행을 추출한다.
+ - select (변수 선택하기) : 변수명으로 특정 칼럼을 추출한다.
+ - arrange (다시 정렬하기) : 행을 다시 정렬한다.
+ - mutate (변수 추가하기) : 새로운 변수를 추가한다. 
+ - summarise (변수를 값으로 줄이기) : 변수를 값(스칼라)으로 요약한다.
+ 
+#### 관측점(obervation) 필터링해서 선택하기 (filter)
+<table>
+	<tr><td>전통적 방법</td><td>dplyr 방법</td></tr>
+	<tr><td>df[df$var01==3 & df$var02$==7]</td><td>filter(df, var01==3, var02==7</td></tr>
+</table>
+~~~ {.r}
+df <- data.frame( 
+  color = c("blue", "black", "blue", "blue", "black"), 
+  value = 1:5) 
+filter(df, color == "blue")
+filter(df, value %in% c(1, 4))
+~~~
+
+#### 특정 변수 선택하기 (select)
+<table>
+	<tr><td>전통적 방법</td><td>dplyr 방법</td></tr>
+	<tr><td>df[df$var01==3 & df$var02$==7]</td><td>filter(df, var01==3, var02==7)</td></tr>
+</table>
+
+~~~ {.r}
+select(df, color)
+select(df, -color)
+~~~
+
+#### 다시 정렬하기 (arrange)
+<table>
+	<tr><td>전통적 방법</td><td>dplyr 방법</td></tr>
+	<tr><td>df[order(df$var01, df$var02)]</td><td>arrange(df, var01, var02)</td></tr>
+</table>
+~~~ {.r}
+arrange(df, color)
+arrange(df, desc(color))
+~~~
+
+#### 새변수 생성하기 (mutate)
+<table>
+	<tr><td>전통적 방법</td><td>dplyr 방법</td></tr>
+	<tr><td>df$new <- df$var01/df$var02</td><td>df <- mutate(df, new=var01/var02)</td></tr>
+</table>
+~~~ {.r}
+mutate(df, double = 2 * value)
+mutate(df, double = 2 * value, quadruple = 2 * double)
+~~~
+
+#### 변수 요약하기 (summarize)
+<table>
+	<tr><td>전통적 방법</td><td>dplyr 방법</td></tr>
+	<tr><td>aggregate(df$value, list(var01=df$var01), mean)</td><td>group_by(df, var01) %.% summarize(totalvalue = sum(value))</td></tr>
+</table>
+~~~ {.r}
+summarise(df, total = sum(value))
+by_color <- group_by(df, color) 
+summarise(by_color, total = sum(value))
+~~~
+
+> 요약 통계량 함수
+> min(x), median(x), max(x), quantile(x, p)   
+> n(), n_distinct(), sum(x), mean(x)   
+> sum(x > 10), mean(x > 10)   
+> sd(x), var(x), iqr(x), mad(x)  
+
+
+> ## 함수형 언어 인터페이스 단점 {.callout}
 >
-> Description of a single challenge.
-> There may be several challenges.
+> hourly_delay <- filter( 
+>  summarise( 
+>    group_by( 
+>      filter( 
+>        flights,  
+>        !is.na(dep_delay) 
+>      ),  
+>      date, hour 
+>    ),  
+>    delay = mean(dep_delay),  
+>    n = n() 
+>  ),  
+>  n > 10 
+> )
+
+유닉스 파이프-필터 [magrittr]()를 사용한다. ``%>%``은 "then"으로 발음한다.
+~~~ {.r}
+hourly_delay <- flights %>%  
+  filter(!is.na(dep_delay)) %>% 
+  group_by(date, hour) %>% 
+  summarise(delay = mean(dep_delay), n = n()) %>%  
+  filter(n > 10) 
+~~~
+

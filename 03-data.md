@@ -142,11 +142,11 @@ We apologize for any inconvenience.
  + Rule 9. Source code management, Git/GitHub, HG
  + Rule 10. Rscript or R CMD BATCH *.R should "always" work ! -> Reproducible Data Analysis and Research
 
-![Hadley Wickham](img/had.svg "Hadley Wickham 자료분석 체계")
+![Hadley Wickham이 제시한 자료분석 체계](img/had.svg "Hadley Wickham 자료분석 체계")
 
 ### Hadley Wickham이 제시하는 자료분석 체계
 
-Hadley Wickham은 tidyr을 사용하여 자료 정제하고 자료변환을 위해서 dplyr을 사용하고 그래픽 문법(glammar of graphics)에 따라 ggvis로 시각화하고 R의 다양한 모형화를 이용한 자료분석 체계도를 제안한다. 
+Hadley Wickham은 tidyr을 사용하여 자료 정제하고 자료변환을 위해서 dplyr을 사용하고 그래픽 문법(glammar of graphics)에 따라 ggvis로 시각화하고 R의 다양한 모형화를 이용한 자료분석 체계도를 제안한다. 시각화(Visualization)는 데이터에 대한 통찰력(insight)과 탄성, 놀라움을 줄 수 있지만, 확장성(Scalability)는 떨어진다. 왜냐하면, 사람이 데이터분석 루프에 포함되기 때문에 확장 및 자동화에 한계가 있다. 반대로 모형(Model)화는 자동화와 확장성에는 장점이 있지만, 주어진 모형틀안에서 이루어지기 때문에 통찰력, 놀라움, 탄성을 주지는 못한다. 
 
 #### dplyr
 

@@ -142,7 +142,7 @@ We apologize for any inconvenience.
  + Rule 9. Source code management, Git/GitHub, HG
  + Rule 10. Rscript or R CMD BATCH *.R should "always" work ! -> Reproducible Data Analysis and Research
 
-![Hadley Wickham](fig/had.svg "Hadley Wickham 자료분석 체계")
+![Hadley Wickham](img/had.svg "Hadley Wickham 자료분석 체계")
 
 ### Hadley Wickham이 제시하는 자료분석 체계
 
@@ -159,10 +159,13 @@ Hadley Wickham은 tidyr을 사용하여 자료 정제하고 자료변환을 위�
  - summarise (변수를 값으로 줄이기) : 변수를 값(스칼라)으로 요약한다.
  
 #### 관측점(obervation) 필터링해서 선택하기 (filter)
+
 <table>
-	<tr><td>전통적 방법</td><td>dplyr 방법</td></tr>
-	<tr><td>df[df$var01==3 & df$var02$==7]</td><td>filter(df, var01==3, var02==7</td></tr>
+  <tr><th>전통적 방법</th><th>dplyr 방법</th></tr>
+  <tr><td>df[df$var01==3 & df$var02$==7]</td><td>filter(df, var01==3, var02==7</td></tr>
 </table>
+
+
 ~~~ {.r}
 df <- data.frame( 
   color = c("blue", "black", "blue", "blue", "black"), 
@@ -173,8 +176,8 @@ filter(df, value %in% c(1, 4))
 
 #### 특정 변수 선택하기 (select)
 <table>
-	<tr><td>전통적 방법</td><td>dplyr 방법</td></tr>
-	<tr><td>df[df$var01==3 & df$var02$==7]</td><td>filter(df, var01==3, var02==7)</td></tr>
+  <tr><th>전통적 방법</th><th>dplyr 방법</th></tr>
+  <tr><td>df[df$var01==3 & df$var02$==7]</td><td>filter(df, var01==3, var02==7)</td></tr>
 </table>
 
 ~~~ {.r}
@@ -184,8 +187,8 @@ select(df, -color)
 
 #### 다시 정렬하기 (arrange)
 <table>
-	<tr><td>전통적 방법</td><td>dplyr 방법</td></tr>
-	<tr><td>df[order(df$var01, df$var02)]</td><td>arrange(df, var01, var02)</td></tr>
+  <tr><th>전통적 방법</th><th>dplyr 방법</th></tr>
+  <tr><td>df[order(df$var01, df$var02)]</td><td>arrange(df, var01, var02)</td></tr>
 </table>
 ~~~ {.r}
 arrange(df, color)
@@ -194,8 +197,8 @@ arrange(df, desc(color))
 
 #### 새변수 생성하기 (mutate)
 <table>
-	<tr><td>전통적 방법</td><td>dplyr 방법</td></tr>
-	<tr><td>df$new <- df$var01/df$var02</td><td>df <- mutate(df, new=var01/var02)</td></tr>
+  <tr><th>전통적 방법</th><th>dplyr 방법</th></tr>
+  <tr><td>df$new <- df$var01/df$var02</td><td>df <- mutate(df, new=var01/var02)</td></tr>
 </table>
 ~~~ {.r}
 mutate(df, double = 2 * value)
@@ -204,8 +207,8 @@ mutate(df, double = 2 * value, quadruple = 2 * double)
 
 #### 변수 요약하기 (summarize)
 <table>
-	<tr><td>전통적 방법</td><td>dplyr 방법</td></tr>
-	<tr><td>aggregate(df$value, list(var01=df$var01), mean)</td><td>group_by(df, var01) %.% summarize(totalvalue = sum(value))</td></tr>
+  <tr><th>전통적 방법</th><th>dplyr 방법</th></tr>
+  <tr><td>aggregate(df$value, list(var01=df$var01), mean)</td><td>group_by(df, var01) %.% summarize(totalvalue = sum(value))</td></tr>
 </table>
 ~~~ {.r}
 summarise(df, total = sum(value))
@@ -219,6 +222,7 @@ summarise(by_color, total = sum(value))
 > sum(x > 10), mean(x > 10)   
 > sd(x), var(x), iqr(x), mad(x)  
 
+#### 파이프-필터 자료 처리 이유
 
 > ## 함수형 언어 인터페이스 단점 {.callout}
 >
@@ -238,7 +242,8 @@ summarise(by_color, total = sum(value))
 > )
 
 유닉스 파이프-필터 [magrittr]()를 사용한다. ``%>%``은 "then"으로 발음한다.
-~~~ {.r}
+
+~~~ {.python}
 hourly_delay <- flights %>%  
   filter(!is.na(dep_delay)) %>% 
   group_by(date, hour) %>% 

@@ -101,7 +101,7 @@ GROUP BY column_name;</code></pre>
 </ul></li>
 <li>Rule 3. Do read the documentation
 <ul>
-<li>R 프로그래밍 책을 읽는다.</li>
+<li>R 프로그래밍 책을 읽는다.화 V&amp;R &quot;S Programming&quot;</li>
 <li>R 매뉴얼 참조 : An introduction to R, Writing R extentions</li>
 <li>R 패키지 Vignettes</li>
 <li>help.search()</li>
@@ -131,21 +131,185 @@ We apologize for any inconvenience.</code></pre>
 <h2><span class="glyphicon glyphicon-pushpin"></span>John Chambers</h2>
 </div>
 <div class="panel-body">
-<p>Everything that <strong>exists</strong> is an object; Everything that happens is a function call.</p>
+<p>Everything that <strong>exists</strong> is an object;<br />Everything that <strong>happens</strong> is a function call.</p>
 </div>
 </div>
-<p>or an image from the <code>figs</code> directory:</p>
-<div class="figure">
-<img src="fig/example.svg" title="this is the image&#39;s alt text" alt="this is the image&#39;s title" /><p class="caption">this is the image's title</p>
-</div>
-<div id="challenge-title" class="challenge panel panel-success">
+<ul>
+<li>Rule 6. Strive for clarity and simplicity</li>
+<li>자기설명가능한 변수명 사용하고, 간결하게 주석을 섞어 작성</li>
+<li>모듈방식 작성</li>
+</ul>
+<div id="venables-and-ripley" class="callout panel panel-info">
 <div class="panel-heading">
-<h2><span class="glyphicon glyphicon-pencil"></span>Challenge Title</h2>
+<h2><span class="glyphicon glyphicon-pushpin"></span>Venables and Ripley</h2>
 </div>
 <div class="panel-body">
-<p>Description of a single challenge. There may be several challenges.</p>
+<p>''Refine and polish your code in the same way you would polish your English prose''</p>
 </div>
 </div>
+<ul>
+<li>Rule 7. Test your code !
+<ul>
+<li>단위 테스트, 모듈</li>
+<li><code>package.skeleteon()</code>을 통한 패키지 작성: auto-testing, specific testing, documentation.</li>
+<li>R 패키지 <code>tools</code>의 <code>R CMD check</code> 사용, Luke Tierney <code>codetools</code> 사용</li>
+<li>단위 테스트 패키지 <code>RUnit</code>, <code>testthat</code> 사용</li>
+<li>테스트 후에 최적화</li>
+<li>최적화에 두가지 원칙:
+<ul>
+<li>Don't do it unless you need it.</li>
+<li>Measure, don't guess, about the speed</li>
+</ul></li>
+<li><code>Rprof()</code>, <code>unix.time()</code>, <code>gc()</code>, R 패키지 <code>rbenchmark</code>, <code>microbenchmark</code>, <code>pdbPROF</code>.</li>
+</ul></li>
+</ul>
+<h5 id="새로-추가된-안내지침">새로 추가된 안내지침</h5>
+<ul>
+<li>Rule 8. Maintain R code in <strong>Packages</strong> (extension of &quot;Test!&quot;)</li>
+<li>Rule 9. Source code management, Git/GitHub, HG</li>
+<li>Rule 10. Rscript or R CMD BATCH *.R should &quot;always&quot; work ! -&gt; Reproducible Data Analysis and Research</li>
+</ul>
+<div class="figure">
+<img src="img/had.svg" title="Hadley Wickham 자료분석 체계" alt="Hadley Wickham" /><p class="caption">Hadley Wickham</p>
+</div>
+<h3 id="hadley-wickham이-제시하는-자료분석-체계">Hadley Wickham이 제시하는 자료분석 체계</h3>
+<p>Hadley Wickham은 tidyr을 사용하여 자료 정제하고 자료변환을 위해서 dplyr을 사용하고 그래픽 문법(glammar of graphics)에 따라 ggvis로 시각화하고 R의 다양한 모형화를 이용한 자료분석 체계도를 제안한다.</p>
+<h4 id="dplyr">dplyr</h4>
+<p><a href="http://cran.r-project.org/web/packages/dplyr/dplyr.pdf">dplyr</a> 패키지는 데이터프레임(data.frame) 자료처리를 위한 차세대 plyr 패키지다. 다음 6가지 함수가 핵심 함수로 SQL 기본 기능과 유사성이 크다. 따라서, 기존 다양한 자료처리 방식을 직관적이며 빠르며 효율적인 dplyr 패키지 함수로 생산성을 높여본다.</p>
+<ul>
+<li>filter (관측점 필터링) : 특정 기준을 만족하는 행을 추출한다.</li>
+<li>select (변수 선택하기) : 변수명으로 특정 칼럼을 추출한다.</li>
+<li>arrange (다시 정렬하기) : 행을 다시 정렬한다.</li>
+<li>mutate (변수 추가하기) : 새로운 변수를 추가한다.</li>
+<li>summarise (변수를 값으로 줄이기) : 변수를 값(스칼라)으로 요약한다.</li>
+</ul>
+<h4 id="관측점obervation-필터링해서-선택하기-filter">관측점(obervation) 필터링해서 선택하기 (filter)</h4>
+<table>
+<tr>
+<th>
+전통적 방법
+</th>
+<th>
+dplyr 방법
+</th>
+</tr>
+<tr>
+<td>
+df[df<span class="math">$var01==3 &amp; df$</span>var02$==7]
+</td>
+<td>
+filter(df, var01==3, var02==7
+</td>
+</tr>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">data.frame</span>( 
+  <span class="dt">color =</span> <span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;black&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;black&quot;</span>), 
+  <span class="dt">value =</span> <span class="dv">1</span>:<span class="dv">5</span>) 
+<span class="kw">filter</span>(df, color ==<span class="st"> &quot;blue&quot;</span>)
+<span class="kw">filter</span>(df, value %in%<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">4</span>))</code></pre>
+<h4 id="특정-변수-선택하기-select">특정 변수 선택하기 (select)</h4>
+<table>
+<tr>
+<th>
+전통적 방법
+</th>
+<th>
+dplyr 방법
+</th>
+</tr>
+<tr>
+<td>
+df[df<span class="math">$var01==3 &amp; df$</span>var02$==7]
+</td>
+<td>
+filter(df, var01==3, var02==7)
+</td>
+</tr>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">select</span>(df, color)
+<span class="kw">select</span>(df, -color)</code></pre>
+<h4 id="다시-정렬하기-arrange">다시 정렬하기 (arrange)</h4>
+<table>
+<tr>
+<th>
+전통적 방법
+</th>
+<th>
+dplyr 방법
+</th>
+</tr>
+<tr>
+<td>
+df[order(df<span class="math"><em>v</em><em>a</em><em>r</em>01, <em>d</em><em>f</em></span>var02)]
+</td>
+<td>
+arrange(df, var01, var02)
+</td>
+</tr>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">arrange</span>(df, color)
+<span class="kw">arrange</span>(df, <span class="kw">desc</span>(color))</code></pre>
+<h4 id="새변수-생성하기-mutate">새변수 생성하기 (mutate)</h4>
+<table>
+<tr>
+<th>
+전통적 방법
+</th>
+<th>
+dplyr 방법
+</th>
+</tr>
+<tr>
+<td>
+df<span class="math"><em>n</em><em>e</em><em>w</em> &lt;  − <em>d</em><em>f</em></span>var01/df$var02
+</td>
+<td>
+df &lt;- mutate(df, new=var01/var02)
+</td>
+</tr>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mutate</span>(df, <span class="dt">double =</span> <span class="dv">2</span> *<span class="st"> </span>value)
+<span class="kw">mutate</span>(df, <span class="dt">double =</span> <span class="dv">2</span> *<span class="st"> </span>value, <span class="dt">quadruple =</span> <span class="dv">2</span> *<span class="st"> </span>double)</code></pre>
+<h4 id="변수-요약하기-summarize">변수 요약하기 (summarize)</h4>
+<table>
+<tr>
+<th>
+전통적 방법
+</th>
+<th>
+dplyr 방법
+</th>
+</tr>
+<tr>
+<td>
+aggregate(df<span class="math"><em>v</em><em>a</em><em>l</em><em>u</em><em>e</em>, <em>l</em><em>i</em><em>s</em><em>t</em>(<em>v</em><em>a</em><em>r</em>01 = <em>d</em><em>f</em></span>var01), mean)
+</td>
+<td>
+group_by(df, var01) %.% summarize(totalvalue = sum(value))
+</td>
+</tr>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summarise</span>(df, <span class="dt">total =</span> <span class="kw">sum</span>(value))
+by_color &lt;-<span class="st"> </span><span class="kw">group_by</span>(df, color) 
+<span class="kw">summarise</span>(by_color, <span class="dt">total =</span> <span class="kw">sum</span>(value))</code></pre>
+<blockquote>
+<p>요약 통계량 함수 min(x), median(x), max(x), quantile(x, p)<br />n(), n_distinct(), sum(x), mean(x)<br />sum(x &gt; 10), mean(x &gt; 10)<br />sd(x), var(x), iqr(x), mad(x)</p>
+</blockquote>
+<h4 id="파이프-필터-자료-처리-이유">파이프-필터 자료 처리 이유</h4>
+<div id="함수형-언어-인터페이스-단점" class="callout panel panel-info">
+<div class="panel-heading">
+<h2><span class="glyphicon glyphicon-pushpin"></span>함수형 언어 인터페이스 단점</h2>
+</div>
+<div class="panel-body">
+<p>hourly_delay &lt;- filter( summarise( group_by( filter( flights,<br /> !is.na(dep_delay) ),<br /> date, hour ),<br /> delay = mean(dep_delay),<br /> n = n() ),<br /> n &gt; 10 )</p>
+</div>
+</div>
+<p>유닉스 파이프-필터 <a href="">magrittr</a>를 사용한다. <code>%&gt;%</code>은 &quot;then&quot;으로 발음한다.</p>
+<pre class="sourceCode python"><code class="sourceCode python">hourly_delay &lt;- flights %&gt;%  
+  <span class="dt">filter</span>(!is.na(dep_delay)) %&gt;% 
+  group_by(date, hour) %&gt;% 
+  summarise(delay = mean(dep_delay), n = n()) %&gt;%  
+  <span class="dt">filter</span>(n &gt; <span class="dv">10</span>) </code></pre>
         </div>
       </div>
       <div class="footer">

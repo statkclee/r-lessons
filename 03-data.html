@@ -41,12 +41,16 @@
 </div>
 <h3 id="r-자료-구조">R 자료 구조</h3>
 <p>자료는 기본적으로 벡터(Vector)를 기본으로 한다. 하지만 벡터로 표현될 수 있는 정보량은 한정되어 있으며 이를 하나의 자료 형태로 구조화한 것을 데이터프레임(dataframe)으로 볼 수 있다. 따라서, 자료분석을 위한 기본 자료형태를 데이터프레임으로 놓는다.</p>
-<pre class="sourceCode r"><code class="sourceCode r">for (i in collection-x) {
+<pre class="sourceCode python"><code class="sourceCode python">for (i in collection-x) {
     for (j in collection-y) {
-        df &lt;­ <span class="kw">func</span>(df,i,j)
+        df &lt;­ func(df,i,j)
     }
 }</code></pre>
-<p>R을 사용하는 방법중 하나는 반복을 통해 한번에 하나씩 연산을 수행하기 보다는 단 한번 호출(call)을 통해서 전체 벡터 연산을 수행한다. 또한 apply 함수를 사용해서 행, 열, 리스트에 대해서도 마찬가지다. 또한 reduce를 사용해서 함수형 프로그래밍도 확장해서 수행한다. <sub>~</sub> {.r} # for 루프를 돌려 연산을 수행 for (i in 1:N) { sum.result[i] &lt;­ A[i] + B[i] } # Vectorized 연산자를 사용해서 연산을 수행 sum.result &lt;­- B + C <sub>~</sub></p>
+<p>R을 사용하는 방법중 하나는 반복을 통해 한번에 하나씩 연산을 수행하기 보다는 단 한번 호출(call)을 통해서 전체 벡터 연산을 수행한다. 또한 apply 함수를 사용해서 행, 열, 리스트에 대해서도 마찬가지다. 또한 reduce를 사용해서 함수형 프로그래밍도 확장해서 수행한다.</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="co"># for 루프를 돌려 연산을 수행</span>
+for (i in <span class="dv">1</span>:N) { sum.result[i] &lt;­ A[i] + B[i] }
+<span class="co"># Vectorized 연산자를 사용해서 연산을 수행</span>
+<span class="dt">sum</span>.result &lt;­- B + C</code></pre>
 <p>R에서 제공하는 기본적인 벡터 연산자는 A+B, A­B, A*B, A/B, A%%B가 있다. R은 추가적으로 벡터 연산자(Vectorized Operators)를 제공하는 몇 안되는 언어다. 몇 안되는 언어에는 매트랩(Matlab)이 포함되어 있다. 벡터 연산자가 유용한 이유는 반복 루프(loop)를 돌리지 않아도 덧셈, 곱셉 등 필요한 연산을 직관적으로 수행할 수 있다는 장점이 있다. 또한, apply, sapply, tapply, mapply 등 강력한 함수도 제공한다.</p>
 <h4 id="apply-함수">apply 함수</h4>
 <ul>
@@ -170,10 +174,10 @@ We apologize for any inconvenience.</code></pre>
 <li>Rule 10. Rscript or R CMD BATCH *.R should &quot;always&quot; work ! -&gt; Reproducible Data Analysis and Research</li>
 </ul>
 <div class="figure">
-<img src="img/had.svg" title="Hadley Wickham 자료분석 체계" alt="Hadley Wickham" /><p class="caption">Hadley Wickham</p>
+<img src="img/had.svg" title="Hadley Wickham 자료분석 체계" alt="Hadley Wickham이 제시한 자료분석 체계" /><p class="caption">Hadley Wickham이 제시한 자료분석 체계</p>
 </div>
 <h3 id="hadley-wickham이-제시하는-자료분석-체계">Hadley Wickham이 제시하는 자료분석 체계</h3>
-<p>Hadley Wickham은 tidyr을 사용하여 자료 정제하고 자료변환을 위해서 dplyr을 사용하고 그래픽 문법(glammar of graphics)에 따라 ggvis로 시각화하고 R의 다양한 모형화를 이용한 자료분석 체계도를 제안한다.</p>
+<p>Hadley Wickham은 tidyr을 사용하여 자료 정제하고 자료변환을 위해서 dplyr을 사용하고 그래픽 문법(glammar of graphics)에 따라 ggvis로 시각화하고 R의 다양한 모형화를 이용한 자료분석 체계도를 제안한다. 시각화(Visualization)는 데이터에 대한 통찰력(insight)과 탄성, 놀라움을 줄 수 있지만, 확장성(Scalability)는 떨어진다. 왜냐하면, 사람이 데이터분석 루프에 포함되기 때문에 확장 및 자동화에 한계가 있다. 반대로 모형(Model)화는 자동화와 확장성에는 장점이 있지만, 주어진 모형틀안에서 이루어지기 때문에 통찰력, 놀라움, 탄성을 주지는 못한다.</p>
 <h4 id="dplyr">dplyr</h4>
 <p><a href="http://cran.r-project.org/web/packages/dplyr/dplyr.pdf">dplyr</a> 패키지는 데이터프레임(data.frame) 자료처리를 위한 차세대 plyr 패키지다. 다음 6가지 함수가 핵심 함수로 SQL 기본 기능과 유사성이 크다. 따라서, 기존 다양한 자료처리 방식을 직관적이며 빠르며 효율적인 dplyr 패키지 함수로 생산성을 높여본다.</p>
 <ul>
@@ -301,7 +305,7 @@ by_color &lt;-<span class="st"> </span><span class="kw">group_by</span>(df, colo
 <h2><span class="glyphicon glyphicon-pushpin"></span>함수형 언어 인터페이스 단점</h2>
 </div>
 <div class="panel-body">
-<p>hourly_delay &lt;- filter( summarise( group_by( filter( flights,<br /> !is.na(dep_delay) ),<br /> date, hour ),<br /> delay = mean(dep_delay),<br /> n = n() ),<br /> n &gt; 10 )</p>
+<p>hourly_delay &lt;- filter(<br /> summarise(<br /> group_by(<br /> filter(<br /> flights,<br /> !is.na(dep_delay)<br /> ),<br /> date, hour<br /> ),<br /> delay = mean(dep_delay),<br /> n = n()<br /> ),<br /> n &gt; 10<br />)</p>
 </div>
 </div>
 <p>유닉스 파이프-필터 <a href="">magrittr</a>를 사용한다. <code>%&gt;%</code>은 &quot;then&quot;으로 발음한다.</p>

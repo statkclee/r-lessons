@@ -14,7 +14,7 @@ minutes: 10
 
 자료는 기본적으로 벡터(Vector)를 기본으로 한다. 하지만 벡터로 표현될 수 있는 정보량은 한정되어 있으며 이를 하나의 자료 형태로 구조화한 것을 데이터프레임(dataframe)으로 볼 수 있다. 따라서, 자료분석을 위한 기본 자료형태를 데이터프레임으로 놓는다. 
 
-~~~ {.r}
+~~~ {.python}
 for (i in collection-x) {
     for (j in collection-y) {
         df <­ func(df,i,j)
@@ -23,7 +23,8 @@ for (i in collection-x) {
 ~~~
 
 R을 사용하는 방법중 하나는 반복을 통해 한번에 하나씩 연산을 수행하기 보다는 단 한번 호출(call)을 통해서 전체 벡터 연산을 수행한다. 또한 apply 함수를 사용해서 행, 열, 리스트에 대해서도 마찬가지다. 또한 reduce를 사용해서 함수형 프로그래밍도 확장해서 수행한다.
-~~~ {.r}
+
+~~~ {.python}
 # for 루프를 돌려 연산을 수행
 for (i in 1:N) { sum.result[i] <­ A[i] + B[i] }
 # Vectorized 연산자를 사용해서 연산을 수행
@@ -226,19 +227,19 @@ summarise(by_color, total = sum(value))
 
 > ## 함수형 언어 인터페이스 단점 {.callout}
 >
-> hourly_delay <- filter( 
->  summarise( 
->    group_by( 
->      filter( 
->        flights,  
->        !is.na(dep_delay) 
->      ),  
->      date, hour 
->    ),  
->    delay = mean(dep_delay),  
->    n = n() 
->  ),  
->  n > 10 
+>hourly_delay <- filter(   
+>    summarise(   
+>        group_by(   
+>             filter(   
+>                 flights,    
+>                 !is.na(dep_delay)   
+>             ),    
+>             date, hour   
+>        ),    
+>    delay = mean(dep_delay),    
+>         n = n()   
+>    ),    
+>    n > 10   
 > )
 
 유닉스 파이프-필터 [magrittr]()를 사용한다. ``%>%``은 "then"으로 발음한다.
